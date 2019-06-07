@@ -11,7 +11,7 @@ using namespace std;
 
 int get_size(int *size) {
 	struct stat results;
-	if (stat("in.jpg", &results) == 0) {
+	if (stat("in.pdf", &results) == 0) {
 		*size = results.st_size;
 		cout << "[+] Определен размер файла: " << *size << " байт" << endl;
 	} else {
@@ -24,7 +24,7 @@ int get_size(int *size) {
 
 void read(char *buffer, int size) {
 	fstream myFile;
-	myFile.open("in.jpg", ios::in | ios::binary);
+	myFile.open("in.pdf", ios::in | ios::binary);
 	myFile.read(buffer, size);
 	myFile.close();
 	cout << "[+] Файл успешно прочитан." << endl;
