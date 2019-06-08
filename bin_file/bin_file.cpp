@@ -4,14 +4,11 @@
 #include <bitset>
 #include <string>
 
-
-//test
-
 using namespace std;
 
 int get_size(int *size) {
 	struct stat results;
-	if (stat("in.pdf", &results) == 0) {
+	if (stat("test.txt", &results) == 0) {
 		*size = results.st_size;
 		cout << "[+] Определен размер файла: " << *size << " байт" << endl;
 	} else {
@@ -24,14 +21,14 @@ int get_size(int *size) {
 
 void read(char *buffer, int size) {
 	fstream myFile;
-	myFile.open("in.pdf", ios::in | ios::binary);
+	myFile.open("test.txt", ios::in | ios::binary);
 	myFile.read(buffer, size);
 	myFile.close();
 	cout << "[+] Файл успешно прочитан." << endl;
 }
 
 
-void encode(char* buffer, int size, char* bits) {
+void encode(char* buffer, char* bits, int size) {
 	string byte;
 	int count = 0;
 	cout << "[*] Кодирование " << size << " байт в " << size * 8 << " бит." << endl;
@@ -41,15 +38,15 @@ void encode(char* buffer, int size, char* bits) {
 		for (int j = 0; j < 8; j++)
 		{
 			bits[count] = byte[j];
-			//cout << bits[count];
+			cout << bits[count];
 			count++;
 		}
 	}
-	//cout << endl;
+	cout << endl;
 }
 
 
-void decode(char* buffer, int size, char* bits) {
+void decode(char* buffer, char* bits, int size) {
 	int count = 0;
 	cout << "[*] Декодирование " << size * 8 << " бит в " << size << " байт." << endl;
 	for (int i = 0; i < size; i++)
@@ -61,10 +58,10 @@ void decode(char* buffer, int size, char* bits) {
 			count++;
 		}
 		buffer[i] = bitset<8>(byte).to_ulong();
-		//cout << buffer[i];
+		cout << buffer[i];
 	}
 	
-	//cout << endl;
+	cout << endl;
 }
 
 
@@ -79,7 +76,7 @@ void print(char* buffer, int size) {
 
 void write(char* buffer, int size) {
 	fstream myFile;
-	myFile.open("out.jpg", ios::out | ios::binary);
+	myFile.open("test_out.txt", ios::out | ios::binary);
 	myFile.write(buffer, size);
 	myFile.close();
 	cout << "[+] Файл успешно записан." << endl;
@@ -93,9 +90,9 @@ int main()
 	char *bits = new char[size * 8];
 	
 	read(buffer, size);
-	//print(buffer, size);
-	encode(buffer, size, bits);
-	decode(buffer, size, bits);
+	print(buffer, size);
+	encode(buffer, bits, size);
+	decode(buffer, bits, size);
 	write(buffer, size);
 
 	delete[] buffer;
